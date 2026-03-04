@@ -2,7 +2,9 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ecclesia Obscura</title>
+
 <style>
 body {
   background-color: #000;
@@ -14,7 +16,16 @@ body {
   height: 100vh;
   flex-direction: column;
   letter-spacing: 2px;
+  margin: 0;
+  transition: opacity 1s ease;
+  position: relative;
+  overflow: hidden;
 }
+
+h1 {
+  font-weight: normal;
+}
+
 input {
   background: none;
   border: 1px solid #fff;
@@ -23,7 +34,9 @@ input {
   margin-top: 20px;
   width: 250px;
   text-align: center;
+  outline: none;
 }
+
 button {
   background: none;
   border: 1px solid #fff;
@@ -31,36 +44,95 @@ button {
   padding: 10px 20px;
   margin-top: 10px;
   cursor: pointer;
+  transition: 0.3s;
 }
+
 button:hover {
   background-color: #fff;
   color: #000;
+}
+
+.fade-out {
+  opacity: 0;
+}
+
+/* 🔴 붉은 번쩍 효과 */
+.flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: red;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 999;
+}
+.flash.active {
+  opacity: 0.4;
 }
 </style>
 </head>
 <body>
 
+<div id="flash" class="flash"></div>
+
 <h1>누가 '우리'를 부르는가.</h1>
+
 <input type="text" id="answerInput" placeholder="이름을 입력하라">
 <button onclick="checkAnswer()">확인</button>
 
 <script>
 function checkAnswer() {
-  const userAnswer = document.getElementById("answerInput").value.toLowerCase();
+  const userAnswer = document
+    .getElementById("answerInput")
+    .value
+    .trim();
 
   if (userAnswer === "아담") {
-    window.location.href = "doctrine_light.html";
+    redFlash("doctrine_light.html");
   } 
   else if (userAnswer === "제이든") {
-    window.location.href = "doctrine_dark.html";
+    movePage("doctrine_dark.html");
   } 
   else if (userAnswer === "제이슨") {
-    window.location.href = "secret.html";
+    movePage("secret.html");
   } 
   else {
     alert("우리는 영원히 잊지 않는다.");
   }
 }
+
+function redFlash(page) {
+  const flash = document.getElementById("flash");
+  flash.classList.add("active");
+
+  setTimeout(() => {
+    flash.classList.remove("active");
+    document.body.classList.add("fade-out");
+
+    setTimeout(() => {
+      window.location.href = page;
+    }, 800);
+
+  }, 200);
+}
+
+function movePage(page) {
+  document.body.classList.add("fade-out");
+  setTimeout(() => {
+    window.location.href = page;
+  }, 800);
+}
+
+// Enter 키 제출
+document.getElementById("answerInput")
+  .addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+      checkAnswer();
+    }
+});
 </script>
 
 </body>
