@@ -19,8 +19,6 @@ body {
   text-align: center;
   line-height: 2.2;
   letter-spacing: 1.5px;
-  animation: fadeIn 2.5s ease forwards;
-  opacity: 0;
 }
 
 .container {
@@ -35,6 +33,7 @@ h1 {
 
 .verse {
   margin-bottom: 25px;
+  min-height: 28px;
 }
 
 .signature {
@@ -43,54 +42,76 @@ h1 {
   opacity: 1.3;
 }
 
-@keyframes fadeIn {
-  to { opacity: 1; }
+/* 커서 효과 */
+.cursor::after {
+  content: "|";
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
-<h1>⯣ Adam ⯣</h1>
+<h1 id="title"></h1>
 
-<div class="verse">
-아담.<br>
-⯣의 교리를 따르는 고귀한 존재.
-</div>
+<div class="verse" id="v1"></div>
+<div class="verse" id="v2"></div>
+<div class="verse" id="v3"></div>
+<div class="verse" id="v4"></div>
+<div class="verse" id="v5"></div>
+<div class="verse" id="v6"></div>
 
-<div class="verse">
-하나의 운명을 두 개의 육체로 나눠가지니,<br>
-⯣께서 한 명의 영혼을 구원하시라.
-</div>
-
-<div class="verse">
-아담의 존재는 지독한 증오로부터,<br>
-인간의 추잡한 욕망까지 이끄시나이.
-</div>
-
-<div class="verse">
-아담의 이름 아래,<br>
-모든 것이 허무할지어다.
-</div>
-
-<div class="verse">
-그리하여,<br>
-세상은 ⯣ 손에서 놀아날테니.
-</div>
-
-<div class="verse">
-욕망에 열광하며 살아라,<br>
-악과 선을 구별하지 말아라
-⯣가 행하는 것은 옳고 그름과 없이
-'유희' 속에 사라지리라.
-</div>
-  
-<div class="signature">
-⯣ 
-</div>
+<div class="signature" id="sig"></div>
 
 </div>
+
+<script>
+const lines = [
+  { id: "title", text: "⯣ Adam ⯣" },
+  { id: "v1", text: "아담.\n⯣의 교리를 따르는 고귀한 존재." },
+  { id: "v2", text: "하나의 운명을 두 개의 육체로 나눠가지니,\n⯣께서 한 명의 영혼을 구원하시라." },
+  { id: "v3", text: "아담의 존재는 지독한 증오로부터,\n인간의 추잡한 욕망까지 이끄시나이." },
+  { id: "v4", text: "아담의 이름 아래,\n모든 것이 허무할지어다." },
+  { id: "v5", text: "그리하여,\n세상은 ⯣ 손에서 놀아날테니." },
+  { id: "v6", text: "욕망에 열광하며 살아라,\n악과 선을 구별하지 말아라\n⯣가 행하는 것은 옳고 그름과 없이\n'유희' 속에 사라지리라." },
+  { id: "sig", text: "⯣" }
+];
+
+let lineIndex = 0;
+let charIndex = 0;
+
+function typeLine() {
+  if (lineIndex >= lines.length) return;
+
+  const current = lines[lineIndex];
+  const element = document.getElementById(current.id);
+  element.classList.add("cursor");
+
+  if (charIndex < current.text.length) {
+    if (current.text[charIndex] === "\n") {
+      element.innerHTML += "<br>";
+    } else {
+      element.innerHTML += current.text[charIndex];
+    }
+    charIndex++;
+    setTimeout(typeLine, 40);
+  } else {
+    element.classList.remove("cursor");
+    lineIndex++;
+    charIndex = 0;
+    setTimeout(typeLine, 400);
+  }
+}
+
+window.onload = typeLine;
+</script>
 
 </body>
 </html>
