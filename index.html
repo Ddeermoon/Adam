@@ -24,6 +24,7 @@ body {
 
 h1 {
   font-weight: normal;
+  z-index: 2;
 }
 
 input {
@@ -35,6 +36,7 @@ input {
   width: 250px;
   text-align: center;
   outline: none;
+  z-index: 2;
 }
 
 button {
@@ -45,6 +47,7 @@ button {
   margin-top: 10px;
   cursor: pointer;
   transition: 0.3s;
+  z-index: 2;
 }
 
 button:hover {
@@ -67,13 +70,33 @@ button:hover {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
-  z-index: 999;
+  z-index: 9999;
 }
 .flash.active {
   opacity: 0.4;
 }
+
+/* 🩸 붉은 십자가 파티클 */
+.particle {
+  position: fixed;
+  color: rgba(139, 0, 0, 0.4);
+  font-size: 18px;
+  pointer-events: none;
+  animation: float linear infinite;
+  z-index: 1;
+}
+
+@keyframes float {
+  from {
+    transform: translateY(100vh) rotate(0deg);
+  }
+  to {
+    transform: translateY(-10vh) rotate(360deg);
+  }
+}
 </style>
 </head>
+
 <body>
 
 <div id="flash" class="flash"></div>
@@ -133,6 +156,26 @@ document.getElementById("answerInput")
       checkAnswer();
     }
 });
+
+// 🩸 붉은 십자가 생성
+function createParticle() {
+  const particle = document.createElement("div");
+  particle.classList.add("particle");
+  particle.innerText = "✝";
+
+  particle.style.left = Math.random() * 100 + "vw";
+  particle.style.fontSize = (12 + Math.random() * 20) + "px";
+  particle.style.animationDuration = (5 + Math.random() * 10) + "s";
+  particle.style.opacity = 0.2 + Math.random() * 0.5;
+
+  document.body.appendChild(particle);
+
+  setTimeout(() => {
+    particle.remove();
+  }, 15000);
+}
+
+setInterval(createParticle, 800);
 </script>
 
 </body>
