@@ -1,1 +1,184 @@
-ㅇ
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Personal Record</title>
+
+<link href="https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2107@1.1/ChosunGu.woff" rel="stylesheet">
+
+<style>
+
+body{
+background:#d8d2c4;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+font-family:"ChosunGu", serif;
+}
+
+/* 책 페이지 */
+.page{
+background:#fffdf6;
+width:750px;
+height:85vh;
+padding:60px;
+box-shadow:0 0 40px rgba(0,0,0,0.35);
+overflow-y:auto;
+line-height:2.1;
+font-size:22px;
+}
+
+/* 글 */
+#text{
+white-space:pre-wrap;
+}
+
+/* 글자 흔들림 */
+.char{
+display:inline-block;
+animation:write 0.25s ease;
+}
+
+@keyframes write{
+0%{
+transform:translateY(-3px) rotate(-3deg);
+opacity:0;
+}
+100%{
+transform:translateY(0) rotate(0deg);
+opacity:1;
+}
+}
+
+/* 커서 */
+.cursor::after{
+content:"|";
+animation:blink 1s infinite;
+}
+
+@keyframes blink{
+0%,100%{opacity:1}
+50%{opacity:0}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+<div id="text"></div>
+</div>
+
+<audio id="pencilSound" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4c5b3a7e62.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const story = `아담 제이슨.
+23세라는 '설정'을 가진
+유전자 배합과 시험관 시술로 태어난 쌍둥이 형제 중 동생.
+
+인조인간도 아닌, 완벽한 인간이지만
+인간보다 뛰어난 부분
+인간적으로 결함이 있는 부분
+극명하게 존재하는 인간.
+
+아담교의 신이자 아버지라 여겨진 인간.
+
+쌍둥이로 태어나, 아담교의 교리 집행 및 해석 권한 보유 및 처형을 담당하며 살았다.
+
+아담교의 교리, 욕망에 충실하게 살게 하리라.
+아버지가 되어, 아버지를 모시고, 아버지를 믿으며, 아버지로 살아가리라.
+
+아담이라는 이름을 가진 두 형제는 교주와 교주의 이해자로
+한 평생을 살아가고 있었다.
+
+선악에 경계를 알지 못하고,
+오로지 쾌락에 미쳐 살던 형제.
+
+지금의 바보 같은 모습도 결국,
+가장 욕망에 가까운 행동을 하기 위해 채택한 수단.
+
+아담 제이슨은 마냥 해맑은 인간이 아니다.
+언제든 지루해진다면,
+어떤 짓이든 저지를 수 있는 자.
+
+목줄은 교주인 쌍둥이 형일뿐...
+
+위태로운 삶은
+전쟁이라는 명목으로
+
+살기 위한 '욕망'을 받아주던 교단을 습격한
+카볼로 군인에 의해
+
+신이 너를 지켜준거야.
+아버지가 너를 지켜주신거야.
+내가 너를 지킨거야.
+
+그러니 너는
+
+가장 욕망스럽게 자유롭게 살아.
+
+복수도, 슬픔도,
+이별과 가족도.
+
+전부 지금 느끼는 욕망대로.
+
+아버지! 신님! ...형!
+보고 있어?
+
+나 지금
+최고로 행복하게 살고 있어!
+`;
+
+const text = document.getElementById("text");
+const sound = document.getElementById("pencilSound");
+
+let i = 0;
+
+function type(){
+
+text.classList.add("cursor");
+
+if(i === 0){
+sound.play();
+}
+
+if(i < story.length){
+
+const span = document.createElement("span");
+span.classList.add("char");
+
+if(story[i] === "\n"){
+text.appendChild(document.createElement("br"));
+}else{
+span.textContent = story[i];
+text.appendChild(span);
+}
+
+i++;
+
+setTimeout(type,30 + Math.random()*30);
+
+}else{
+
+text.classList.remove("cursor");
+sound.pause();
+
+}
+
+}
+
+window.onload = type;
+
+</script>
+
+</body>
+</html>
+```
