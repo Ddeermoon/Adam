@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Adam — Play</title>
+
+<style>
+
+body{
+background:black;
+color:#ff0000;
+font-family:"Courier New",monospace;
+font-weight:bold;
+margin:0;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.container{
+max-width:700px;
+line-height:2;
+letter-spacing:1.5px;
+}
+
+.cursor::after{
+content:"|";
+animation:blink 1s infinite;
+}
+
+@keyframes blink{
+0%,50%,100%{opacity:1;}
+25%,75%{opacity:0;}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<div id="text"></div>
+</div>
+
+<audio id="typeSound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
+
+<script>
+
+const text=`사이버펑크풍의 국가, 로카리타.
+화려한 네온 사인에서 지독하게 욕망을 탐하는 인간들을 위한 아담교.
+
+최초의 인간, 선악과를 삼킨 존재.
+에덴의 뱀에 속아 넘어간 것이 그리 죄란말인가!
+아담교는 땀을 흘려야만 배를 채울 수 있다는 저주에서 벗어날 것이다.
+그저 욕망대로, 욕심대로, 거짓된 신이 내린 증오를 벗어던지고.
+인간의 추잡한 욕망까지 이끄시나이.
+
+욕망, 욕구! 치졸한 싸움과 이기심. 악과 선의 구별 없는 세상!
+모든 것이 허무할지어다, 모든것이 의미 없어지리라.
+⯣가 행하는 것은 옳고 그름과 없이
+'유희' 속에 사라지리라.
+
+인간의 유희를 위해 손 대신 총을 내밀고,
+자비라는 이름으로 심장에 칼을 찌르니.
+붉은 피가 하늘로 향하여 오만한 태양을 찌르리!`;
+
+let i=0;
+const speed=35;
+
+function type(){
+
+const el=document.getElementById("text");
+const sound=document.getElementById("typeSound");
+
+el.classList.add("cursor");
+
+if(i<text.length){
+
+if(text[i]==="\n"){
+el.innerHTML+="<br>";
+}else{
+el.innerHTML+=text[i];
+sound.currentTime=0;
+sound.play();
+}
+
+i++;
+
+setTimeout(type,speed);
+
+}else{
+el.classList.remove("cursor");
+}
+
+}
+
+window.onload=type;
+
+</script>
+
+</body>
+</html>
